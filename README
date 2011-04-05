@@ -1,0 +1,28 @@
+python-opensso - Python interface to OpenSSO/OpenAM REST API
+
+Code borrowed and reworked from django-opensso by nsb 
+https://github.com/nsb/django-opensso
+
+For detailed usage information please see "The OpenSSO REST Interface in Black/White"
+http://blogs.sun.com/docteger/entry/opensso_and_rest
+
+This is not a complete implementation. Only the end-user functionality has
+been included.  None of the administrative methods are implemented... yet.
+
+Example:
+
+>>> import opensso
+>>> o = opensso.OpenSSO('https://example.com/opensso/')
+>>> token = o.authenticate('jathanism', 'password')
+>>> o.is_token_valid(token)
+True
+>>> attrs = o.attributes(token)
+>>> attrs.attributes.keys() 
+['telephonenumber', 'distinguishedname', 'inetUserStatus', 'displayname', 'cn', 'dn', 'samaccountname', 'useraccountcontrol', 'objectguid', 'userprincipalname', 'name', 'objectclass', 'sun-fm-saml2-nameid-info', 'sn', 'mail', 'sun-fm-saml2-nameid-infokey', 'givenname', 'employeenumber']
+>>> attrs.attributes['displayname']
+'McCollum, Jathan'
+>>> o.logout(token)
+>>> o.is_token_valid(token)
+False
+
+More details Soon(TM).
