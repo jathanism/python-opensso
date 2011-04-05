@@ -12,7 +12,7 @@ been included.  None of the administrative methods are implemented... yet.
 Example:
 
 >>> import opensso
->>> o = opensso.OpenSSO('https://example.com/opensso/')
+>>> o = opensso.OpenSSO('https://example.com/opensso')
 >>> token = o.authenticate('jathanism', 'password')
 >>> o.is_token_valid(token)
 True
