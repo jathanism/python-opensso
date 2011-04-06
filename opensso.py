@@ -52,7 +52,7 @@ class OpenSSO(object):
         True
         >>> rest.attributes(token).attributes['name']
         'joeblow'
-        >>> rest.logou(ttoken)
+        >>> rest.logout(token)
         >>> rest.is_token_valid(token)
         False
     """
