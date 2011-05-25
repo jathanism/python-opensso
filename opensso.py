@@ -13,7 +13,7 @@
 # been included.  None of the administrative methods are implemented... yet.
 
 __author__ = 'Jathan McCollum <jathan+bitbucket@gmail.com>'
-__version__ = '0.1'
+__version__ = '0.1.1'
 
 import urllib
 import urllib2
@@ -180,7 +180,10 @@ def _parse_attributes(data):
     attrs['attributes'] = {}
 
     for i, line in enumerate(lines):
-        this_key, this_value = line.split('=', 1)
+        try:
+            this_key, this_value = line.split('=', 1)
+        except ValueError:
+            continue
 
         # These are pairs of 'name', 'value' on new lines. Lame.
         if line.startswith('userdetails.attribute.name'):
