@@ -13,7 +13,7 @@
 # been included.  None of the administrative methods are implemented... yet.
 
 __author__ = 'Jathan McCollum <jathan+bitbucket@gmail.com>'
-__version__ = '0.1.1'
+__version__ = '0.1.2'
 
 import urllib
 import urllib2
@@ -33,6 +33,7 @@ __all__ = ('OpenSSO', 'OpenSSOError', 'UserDetails',)
 
 # Exceptions
 class OpenSSOError(Exception): pass
+class AuthenticationFailure(OpenSSOError): pass
 
 
 # Classes
@@ -52,7 +53,7 @@ class OpenSSO(object):
         True
         >>> rest.attributes(token).attributes['name']
         'joeblow'
-        >>> rest.logout(token)
+        >>> rest.logou(ttoken)
         >>> rest.is_token_valid(token)
         False
     """
@@ -88,6 +89,10 @@ class OpenSSO(object):
         """
         params = {'username':username, 'password':password, 'uri':uri}
         data = self._GET(REST_OPENSSO_LOGIN, params)
+        if data == '':
+            msg = 'Invalid Credentials for user "{0}".'.format(username)
+            raise AuthenticationFailure(msg)
+
         token = _parse_token(data)
 
         return token
