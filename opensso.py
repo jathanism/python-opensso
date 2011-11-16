@@ -13,7 +13,7 @@
 # been included.  None of the administrative methods are implemented... yet.
 
 __author__ = 'Jathan McCollum <jathan+bitbucket@gmail.com>'
-__version__ = '0.1.2'
+__version__ = '0.1.3'
 
 import urllib
 import urllib2
@@ -111,7 +111,8 @@ class OpenSSO(object):
         params = {'tokenid':tokenid}
         data = self._GET(REST_OPENSSO_IS_TOKEN_VALID, params)
 
-        return data == 'boolean=true\r\n'
+        # 'boolean=true\r\n' or 'boolean=true\n'
+        return data.strip() == 'boolean=true'
 
     def attributes(self, subjectid, attributes_names='uid', **kwargs):
         """
@@ -148,7 +149,7 @@ class OpenSSO(object):
 
         # Ditch the 'string=' crap and make into a list
         cookie_string = data.replace('string=', '')
-        cookie_names = cookie_string.strip().split('\r\n')
+        cookie_names = cookie_string.strip().splitlines()
 
         return cookie_names
 
@@ -205,7 +206,7 @@ def _parse_token(data):
     """
     Slice/split the token and return it. Exceptions will fall through.
     """
-    # Server returns tokens as 'key=<value>\r\n'
+    # Server returns tokens as 'key=<value>\r\n' or 'key=<value>\n'
     key, value = data.strip().split('=', 1)
     return value
 
